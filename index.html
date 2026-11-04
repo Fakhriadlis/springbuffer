@@ -249,13 +249,6 @@ nav .btn{min-height:42px;padding:.55rem 1rem;font-size:.9rem}
 .fullvid .vph b{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:var(--y);color:#111;font-size:1.4rem}
 .fullvid.has .vph{display:none}
 .fullvid::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 40px 50px -30px var(--bg),inset 0 -40px 50px -30px var(--bg)}
-.vctl{position:absolute;right:max(14px,calc((100vw - 1120px)/2));bottom:16px;z-index:2;display:flex;gap:8px}
-.vctl button{width:46px;height:46px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;display:grid;place-items:center;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-.vctl button svg{width:22px;height:22px}
-@media(hover:hover){.vctl button:hover{background:var(--y);color:#111}}
-.fullvid:fullscreen{min-height:0;display:grid;place-items:center}
-.fullvid:fullscreen video{width:100%;height:100%;max-height:none;object-fit:contain}
-.fullvid:fullscreen::after{display:none}
 /* ===== 6 · CARA KERJA (per & buffer beranimasi) ===== */
 .how{background:var(--bg2)}
 .how-grid{display:grid;gap:2rem;margin-top:2.2rem;align-items:center}
@@ -476,12 +469,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
   </div>
   <!-- Video Fortuner layar penuh: assets/video/FORTUNER.mp4 -->
   <div class="fullvid" id="fullVid" data-rv>
-    <video id="ftVid" muted loop playsinline preload="metadata" data-src="assets/video/FORTUNER.mp4" data-alt="assets/video/Fortuner.mp4|assets/video/fortuner.mp4|assets/video/FORTUNER.MP4"></video>
+    <video id="ftVid" muted loop playsinline autoplay preload="metadata" disablepictureinpicture disableremoteplayback data-src="assets/video/FORTUNER.mp4" data-alt="assets/video/Fortuner.mp4|assets/video/fortuner.mp4|assets/video/FORTUNER.MP4"></video>
     <div class="vph"><b>▶</b><span>Video Fortuner<br><small>assets/video/FORTUNER.mp4</small></span></div>
-    <div class="vctl">
-      <button type="button" id="ftMute" aria-label="Nyalakan suara"><svg><use href="#vol"/></svg></button>
-      <button type="button" id="ftFull" aria-label="Tonton layar penuh"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
-    </div>
   </div>
   <div class="wrap">
     <ul class="feel" data-rv style="margin-top:1.6rem"><li>Meredam getaran</li><li>Mengurangi limbung</li><li>Mencegah mobil ngayun</li></ul>
@@ -881,22 +870,6 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
     mute.setAttribute('aria-label', on ? 'Matikan suara' : 'Nyalakan suara');
     mute.innerHTML = '<svg><use href="#' + (on ? 'vol-on' : 'vol') + '"/></svg>';
     if (on) { var p = kid.play(); if (p && p.catch) p.catch(function () {}); }
-  });
-
-  /* ---------- video Fortuner layar penuh: suara & mode layar penuh ---------- */
-  var ft = $('#ftVid'), ftMute = $('#ftMute');
-  ftMute.addEventListener('click', function () {
-    ft.muted = !ft.muted; var on = !ft.muted;
-    ftMute.setAttribute('aria-label', on ? 'Matikan suara' : 'Nyalakan suara');
-    ftMute.innerHTML = '<svg><use href="#' + (on ? 'vol-on' : 'vol') + '"/></svg>';
-    if (on) { var p = ft.play(); if (p && p.catch) p.catch(function () {}); }
-  });
-  $('#ftFull').addEventListener('click', function () {
-    loadVid(ft);
-    var box = $('#fullVid'), req = box.requestFullscreen || box.webkitRequestFullscreen;
-    if (ft.webkitEnterFullscreen && !req) { ft.webkitEnterFullscreen(); }           /* iPhone: layar penuh bawaan video */
-    else if (req) { req.call(box); }
-    var p = ft.play(); if (p && p.catch) p.catch(function () {});
   });
 
   /* ---------- kaki-kaki: diagram hotspot (pindai → 8 titik rawan muncul → tagihan naik → tur otomatis) ---------- */
