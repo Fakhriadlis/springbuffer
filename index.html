@@ -639,6 +639,31 @@ img.crop.kb{scale:1}
 .spec.sp2.swap .sp-title,.spec.sp2.swap .spec-tx p{animation:sptx .55s cubic-bezier(.22,1,.36,1)}
 @keyframes sptx{from{opacity:0;translate:0 8px}to{opacity:1;translate:0 0}}
 @media(prefers-reduced-motion:reduce){.spec.sp2.swap .spec-img,.spec.sp2.swap .sp-title,.spec.sp2.swap .spec-tx p{animation:none}.seg-ind{transition:none}}
+
+/* =====================================================================
+   VIDEO "SI KECIL": sinematik penuh (tanpa bingkai miring, teks di atas video)
+   ===================================================================== */
+.kid.cine .vbox{width:auto;margin-inline:-20px;aspect-ratio:9/13;border-radius:0 0 28px 28px;transform:none;box-shadow:0 40px 80px -30px #000}
+@media(max-width:599px){.kid.cine .vbox::after{box-shadow:none}}
+@media(min-width:600px){.kid.cine .vbox{margin-inline:0;border-radius:28px}}
+@media(min-width:880px){.kid.cine .vbox{aspect-ratio:4/5}}
+.kid.cine .vbox video{scale:1.08;transition:scale 7s cubic-bezier(.22,1,.36,1)}
+.kid.cine.in .vbox video{scale:1}
+.cine-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(12,12,14,.55),transparent 22%,transparent 44%,rgba(12,12,14,.97) 90%)}
+.cine-cap{position:absolute;left:20px;right:20px;bottom:26px;z-index:2}
+@media(min-width:880px){.cine-cap{left:30px;right:30px;bottom:34px}}
+.cine-tag{display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .8rem;border-radius:999px;background:var(--gyb);color:#111;font-family:var(--fd);font-weight:800;font-style:italic;font-size:.74rem;line-height:1;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 8px 18px -8px rgba(0,0,0,.8)}
+.cine-cap b{display:block;margin-top:.7rem;font-family:var(--fd);font-weight:800;font-style:italic;font-stretch:72%;font-size:clamp(1.9rem,8.4vw,2.7rem);line-height:.92;text-transform:uppercase;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+.cine-cap b .shine{text-shadow:none}
+.cine-ds{display:block;margin-top:.6rem;color:#dcd8cb;font-size:.95rem;line-height:1.45;max-width:38ch}
+.cine-prog{position:absolute;left:0;right:0;bottom:0;z-index:3;height:4px;background:rgba(255,255,255,.18)}
+.cine-prog i{display:block;width:0;height:100%;background:var(--gyb);transition:width .25s linear}
+.kid.cine .cine-tag,.kid.cine .cine-cap b,.kid.cine .cine-ds{opacity:0;translate:0 18px;transition:opacity .7s,translate .9s cubic-bezier(.34,1.45,.64,1)}
+.kid.cine.in .cine-tag{opacity:1;translate:0 0;transition-delay:.35s}
+.kid.cine.in .cine-cap b{opacity:1;translate:0 0;transition-delay:.5s}
+.kid.cine.in .cine-ds{opacity:1;translate:0 0;transition-delay:.65s}
+.kid.cine .mute{z-index:4}
+@media(prefers-reduced-motion:reduce){.kid.cine .cine-tag,.kid.cine .cine-cap b,.kid.cine .cine-ds{opacity:1;translate:none}.kid.cine .vbox video{scale:1}}
 </style>
 </head>
 <body>
@@ -704,14 +729,16 @@ img.crop.kb{scale:1}
     <p class="kick" data-rv><span class="dot"></span>Setelah pasang Spring Buffer</p>
     <h2 class="split">Perjalanan yang bikin <span class="shine">semua tersenyum.</span></h2>
     <div class="fam-grid">
-      <figure class="kid" data-rv>
+      <figure class="kid cine" data-rv>
         <div class="vbox" id="kidBox">
           <!-- Video anak di kursi belakang: assets/video/anak.mp4 -->
-          <video id="kidVid" muted loop playsinline preload="metadata" data-src="assets/video/anak.mp4"></video>
+          <video id="kidVid" aria-label="Video si kecil di kursi belakang" muted loop playsinline preload="metadata" data-src="assets/video/anak.mp4"></video>
           <div class="vph"><b>▶</b><span>Video</span></div>
+          <span class="cine-shade" aria-hidden="true"></span>
           <button class="mute" type="button" id="kidMute" aria-label="Nyalakan suara"><svg><use href="#vol"/></svg></button>
+          <div class="cine-cap"><span class="cine-tag">● Kursi belakang</span><b>Si kecil tidak <span class="shine">mual lagi.</span></b><span class="cine-ds">Ayunan bodi paling terasa di belakang. Saat ayunan berkurang, perjalanan keluarga kembali menyenangkan.</span></div>
+          <span class="cine-prog" aria-hidden="true"><i id="kidProg"></i></span>
         </div>
-        <figcaption><b>Si kecil di kursi belakang, tidak mual lagi.</b><span>Ayunan bodi paling terasa di belakang. Saat ayunan berkurang, perjalanan keluarga kembali menyenangkan.</span></figcaption>
       </figure>
       <div class="smiles">
         <h3 data-rv>Reaksi pertama setelah merasakan bedanya.</h3>
@@ -1459,6 +1486,9 @@ img.crop.kb{scale:1}
   });
   watch($$('.ringc'), function (el) { el.classList.add('cin'); }, { threshold: .3 });
   watch($$('#phones'), function (el) { el.classList.add('cin'); }, { threshold: .3 });
+  /* video si kecil: garis progres */
+  var kv = $('#kidVid'), kp = $('#kidProg');
+  if (kv && kp) kv.addEventListener('timeupdate', function () { if (kv.duration) kp.style.width = (kv.currentTime / kv.duration * 100).toFixed(2) + '%'; });
   watch($$('img.crop'), function (im) { im.classList.add('kb'); }, { threshold: .25 });
 
   /* 3 · kartu */
