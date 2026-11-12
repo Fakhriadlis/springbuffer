@@ -9,7 +9,7 @@
 <meta property="og:title" content="Hurricane Spring Buffer – Lubangnya di jalan, tagihannya di bengkel">
 <meta property="og:description" content="Hindari biaya ganti kaki-kaki sampai Rp30 juta. Cukup Rp2,5 juta, garansi seumur hidup tanpa batas klaim.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira:ital,wdth,wght@0,50..125,100..900;1,50..125,100..900&family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/images/jalanrusak.jpg">
 <style>
 :root{--y:#FFD21A;--y2:#FF9F0A;--bg:#0c0c0e;--bg2:#17171a;--bg3:#202026;--tx:#f6f4ee;--mu:#a9a69c;--red:#ff5a4e;--ez:cubic-bezier(.22,1,.36,1);--ez2:cubic-bezier(.65,0,.35,1);color-scheme:dark;box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -413,6 +413,172 @@ main.ptr-move,footer.ptr-move{transform:translate3d(0,var(--pd,0px),0)}
 main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
 #ptr.ptr-back{transition:height .6s cubic-bezier(.34,1.56,.64,1)}
 
+
+/* =====================================================================
+   MOTION SERAGAM DENGAN HALAMAN XCSR (+ lebih "wah")
+   ===================================================================== */
+:root{--gy:linear-gradient(100deg,#fff7b0 0%,#ffe445 22%,#FFD21A 42%,#FFB300 68%,#FF8A00 88%,#FFD21A 100%);--gyb:linear-gradient(180deg,#fff6a0 0%,#ffe03a 22%,#FFD21A 46%,#FFB300 76%,#FF9500 100%);--spring:cubic-bezier(.34,1.56,.64,1)}
+@keyframes gshift{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+/* teks sorotan: gradasi kuning-oranye yang bergerak + cahaya */
+.shine{background:var(--gy);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gshift 6s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(255,170,0,.28))}
+.kick{background:var(--gy);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gshift 6s ease-in-out infinite}
+.kick .dot{background:var(--gyb);animation:dotp 2.2s ease-in-out infinite}
+@keyframes dotp{50%{transform:scale(1.5);box-shadow:0 0 18px var(--y)}}
+.kick.warn{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--red);animation:none}
+.kick.warn .dot{background:var(--red)}
+/* tombol kuning: gradasi lebih kaya, sisi atas mengkilap, cahaya, kilau lewat berkala */
+.btn:not(.ghost){background:var(--gyb);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 var(--lift) 0 var(--base),0 calc(var(--lift) + 12px) 22px -10px var(--shade),0 0 26px -6px rgba(255,170,0,.5)}
+.btn:not(.ghost)::after{animation:sbshine 3.8s ease-in-out infinite}
+@keyframes sbshine{0%,55%{transform:translateX(-130%)}85%,100%{transform:translateX(130%)}}
+.btn.ghost{border-color:rgba(255,210,26,.38)}
+.tab[aria-selected=true],.chips button.on{background:var(--gyb)}
+/* muncul saat di-scroll: sedikit memantul (pegas) */
+[data-rv]{transition:opacity 1s var(--ez),transform 1.15s cubic-bezier(.3,1.35,.5,1),filter 1s var(--ez);transition-delay:var(--d,0ms)}
+
+/* ===== tombol penghubung antar-section: "keluar" dengan pegas ===== */
+.bridge{position:relative;z-index:8;height:0;display:flex;justify-content:center;align-items:center;pointer-events:none}
+.bb{--lift:5px;--base:#9a6a00;pointer-events:auto;position:relative;display:inline-flex;align-items:center;gap:12px;padding:14px 16px 14px 24px;border-radius:999px;text-decoration:none;
+  background:var(--gyb);color:#111;font-weight:900;font-style:italic;font-stretch:82%;font-size:1.06rem;line-height:1;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(200,90,0,.35),0 var(--lift) 0 var(--base),0 18px 34px -12px rgba(0,0,0,.85),0 0 0 8px var(--bg),0 0 30px 4px rgba(255,170,0,.3);
+  opacity:0;transform:translateY(46px) scale(.45) rotate(-5deg);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.bb .ar{position:relative;z-index:1;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#111;color:var(--y)}
+.bb .ar svg{width:18px;height:18px}
+.bb::before{content:"";position:absolute;inset:-6px;border-radius:inherit;border:3px solid var(--y);opacity:0;pointer-events:none}
+.bb::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.7) 50%,transparent 62%);background-size:260% 100%;background-position:130% 0;pointer-events:none;animation:bbshine 3.8s ease-in-out infinite}
+@keyframes bbshine{0%,55%{background-position:130% 0}85%,100%{background-position:-130% 0}}
+.bridge.out .bb{animation:bbpop .95s var(--spring) forwards}
+.bridge.out .bb::before{animation:bbburst .9s ease-out .25s}
+.bridge.done .bb{animation:none;opacity:1;transform:none;transition:transform .45s var(--spring),box-shadow .45s var(--spring)}
+.bridge.done .bb .ar{animation:bbnudge 1.6s ease-in-out infinite}
+.bridge.done .bb.wa .ar{animation:none}
+.bb.pressed,.bb:active{transform:translateY(var(--lift)) !important;box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 0 0 var(--base),0 4px 10px -6px #000,0 0 0 8px var(--bg) !important;transition-duration:.07s !important}
+@keyframes bbpop{0%{opacity:0;transform:translateY(46px) scale(.45) rotate(-5deg)}55%{opacity:1;transform:translateY(-8px) scale(1.08) rotate(1.5deg)}78%{transform:translateY(3px) scale(.97)}100%{opacity:1;transform:none}}
+@keyframes bbburst{0%{opacity:.9;transform:scale(.9)}100%{opacity:0;transform:scale(1.35)}}
+@keyframes bbnudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@media(max-width:600px){.bb{font-size:.95rem;padding:12px 12px 12px 20px;gap:10px}.bb .ar{width:30px;height:30px}}
+.bridge.up{transform:translateY(-46px)}
+.hero .cue{display:none}
+
+/* ===== solusi: momen "wah" saat harga mendarat di Rp2,5 juta ===== */
+.stage .fx-rays{position:absolute;left:50%;top:50%;z-index:0;width:150%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.2);opacity:0;transition:opacity .9s,transform 1.3s var(--spring);pointer-events:none}
+.stage .fx-rays i{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,210,26,.26) 0deg 6deg,transparent 6deg 20deg,rgba(255,159,10,.2) 20deg 25deg,transparent 25deg 40deg);-webkit-mask:radial-gradient(closest-side,#000 18%,transparent 72%);mask:radial-gradient(closest-side,#000 18%,transparent 72%);animation:spin 26s linear infinite}
+.stage.lit .fx-rays{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.stage .fx-glow{position:absolute;inset:14%;z-index:0;border-radius:50%;background:radial-gradient(closest-side,rgba(255,190,0,.45),rgba(255,140,0,.12) 60%,transparent 75%);filter:blur(10px);opacity:0;transition:opacity .9s;pointer-events:none}
+.stage.lit .fx-glow{opacity:1;animation:fxbreathe 3.4s ease-in-out infinite}
+@keyframes fxbreathe{50%{transform:scale(1.12);opacity:.75}}
+.stage .fx-ring{position:absolute;left:50%;top:50%;z-index:3;width:60%;aspect-ratio:1;border-radius:50%;border:4px solid var(--y);transform:translate(-50%,-50%) scale(.3);opacity:0;pointer-events:none}
+.stage .fx-ring.r2{border-color:#fff;border-width:2px}
+.stage.lit .fx-ring{animation:fxboom 1.1s ease-out}
+.stage.lit .fx-ring.r2{animation:fxboom 1.3s ease-out .18s}
+@keyframes fxboom{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.9)}}
+.stage .fx-flash{position:absolute;inset:8%;z-index:4;border-radius:50%;background:radial-gradient(closest-side,rgba(255,250,220,.95),rgba(255,210,26,.45) 40%,transparent 70%);opacity:0;pointer-events:none}
+.stage.lit .fx-flash{animation:fxflash .8s ease-out}
+@keyframes fxflash{0%{opacity:1;transform:scale(.6)}100%{opacity:0;transform:scale(1.3)}}
+.stage .fx-burst{position:absolute;left:50%;top:50%;z-index:4;width:0;height:0;pointer-events:none}
+.stage .fx-burst i{position:absolute;left:0;top:0;width:var(--s,9px);height:var(--s,9px);border-radius:50%;background:radial-gradient(circle,#fff 0 25%,var(--c,#FFD21A) 45%,transparent 72%);opacity:0}
+.stage.lit .fx-burst i{animation:fxspark 1.1s cubic-bezier(.15,.8,.3,1) var(--dl,0s) forwards}
+@keyframes fxspark{0%{opacity:1;transform:translate(-50%,-50%) rotate(var(--a)) translateX(10px) scale(1.4)}100%{opacity:0;transform:translate(-50%,-50%) rotate(var(--a)) translateX(var(--d)) scale(.3)}}
+/* produk "per": ditekan lalu memantul (squash & stretch) */
+.stage.lit .ring img{animation:sbspring 1.25s cubic-bezier(.3,1.5,.5,1),float 6s ease-in-out 1.25s infinite}
+@keyframes sbspring{0%{transform:scale(1)}14%{transform:scale(1.12,.76)}38%{transform:scale(.9,1.16)}60%{transform:scale(1.05,.95)}80%{transform:scale(.99,1.02)}100%{transform:none}}
+.stage.lit .ring{filter:drop-shadow(0 30px 40px rgba(0,0,0,.7)) drop-shadow(0 0 34px rgba(255,190,0,.45))}
+/* harga: gradasi + "menghantam" saat mendarat */
+.drop .r .now{display:inline-block;background:var(--gy);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gshift 6s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(255,170,0,.3));padding-right:.06em;transform-origin:right center}
+.drop .r .now.slam{animation:gshift 6s ease-in-out infinite,sbslam .8s cubic-bezier(.2,1.5,.4,1)}
+@keyframes sbslam{0%{transform:scale(1.5);filter:blur(5px)}55%{transform:scale(.94);filter:blur(0) drop-shadow(0 0 36px rgba(255,170,0,.85))}100%{transform:none}}
+.drop .save b{display:inline-block;background:var(--gy);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gshift 6s ease-in-out infinite}
+.drop .save.pop b{animation:gshift 6s ease-in-out infinite,sbpop .8s var(--spring)}
+@keyframes sbpop{0%{transform:scale(.4)}60%{transform:scale(1.2)}100%{transform:none}}
+
+/* percikan & gelombang tepat di angka harga (terlihat juga di HP) */
+.drop{position:relative}
+.pfx{position:absolute;width:0;height:0;pointer-events:none;z-index:3}
+.pfx i{position:absolute;left:0;top:0;width:var(--s,8px);height:var(--s,8px);border-radius:50%;background:radial-gradient(circle,#fff 0 25%,var(--c,#FFD21A) 45%,transparent 72%);opacity:0}
+.pfx b{position:absolute;left:-70px;top:-70px;width:140px;height:140px;border-radius:50%;border:3px solid var(--y);opacity:0}
+.drop.wow .pfx i{animation:fxspark 1s cubic-bezier(.15,.8,.3,1) var(--dl,0s) forwards}
+.drop.wow .pfx b{animation:pring .9s ease-out}
+.drop.wow{animation:dropglow 1.3s ease-out}
+@keyframes pring{0%{opacity:1;transform:scale(.25)}100%{opacity:0;transform:scale(1.8)}}
+@keyframes dropglow{0%{box-shadow:0 0 0 0 rgba(255,190,0,.55),0 0 40px rgba(255,190,0,.35)}100%{box-shadow:0 0 0 26px rgba(255,190,0,0),0 0 0 rgba(255,190,0,0)}}
+@media(prefers-reduced-motion:reduce){
+  .bb{opacity:1 !important;transform:none !important;animation:none !important}
+  .shine,.kick,.drop .r .now,.drop .save b{animation:none !important}
+}
+
+/* =====================================================================
+   TIPOGRAFI BARU: Saira (judul, label, tombol, angka) + Plus Jakarta Sans (teks)
+   HURUF KAPITAL dimainkan di judul, label, tombol & kartu; teks panjang tetap normal
+   ===================================================================== */
+:root{--fd:'Saira','Archivo',Impact,'Arial Narrow',sans-serif;--fb:'Plus Jakarta Sans','Archivo',system-ui,-apple-system,'Segoe UI',sans-serif}
+body{font-family:var(--fb);letter-spacing:-.004em}
+h1,h2,h3,.btn,.bb,.brand,.mq span,.kick,.kid figcaption b,.spec-ph,.spec-tx strong,.spec-tx small,.bill .num,.bill small,.step b,.step strong,.trio div,.drop .r s,.drop .r .now,.warranty strong,.tab,.chips button,summary,.face figcaption,.feel li,.badges li,.hud,.vph b,#ptr .txt,.seal text,.gword{font-family:var(--fd)}
+h1,h2{font-weight:800;font-style:italic;font-stretch:70%;text-transform:uppercase;line-height:.9;letter-spacing:.006em}
+h1{font-size:clamp(2.7rem,9.6vw,6rem)}
+h2{font-size:clamp(2.15rem,6.8vw,4.4rem)}
+h3{font-weight:800;font-style:italic;font-stretch:78%;text-transform:uppercase;letter-spacing:.01em}
+.kick{font-weight:700;font-stretch:115%;letter-spacing:.28em;font-size:.74rem}
+.btn{font-weight:800;font-style:italic;font-stretch:86%;text-transform:uppercase;letter-spacing:.05em}
+.bb{font-weight:900;font-stretch:78%;letter-spacing:.05em}
+.brand{font-weight:900;font-style:italic;font-stretch:120%;letter-spacing:.08em}
+.trio div,.step strong,.warranty strong,.tab,.chips button,.feel li,.badges li,.face figcaption,.spec-tx strong{text-transform:uppercase;letter-spacing:.04em;font-style:italic;font-weight:800;font-stretch:82%}
+.step b{font-weight:900;font-style:italic;font-stretch:75%}
+summary{font-weight:700;font-stretch:90%;letter-spacing:.01em}
+.drop .r .now,.bill .num{font-weight:900;font-stretch:68%;letter-spacing:.01em}
+.drop .r s{font-weight:800;font-stretch:75%}
+.seal text{font-weight:800;letter-spacing:.26em;text-transform:uppercase}
+.sub,.lead{letter-spacing:-.006em}
+
+/* kata raksasa bergaris (outline) di belakang section, bergeser saat di-scroll */
+.gword{position:absolute;left:0;top:clamp(.5rem,3vw,2.5rem);z-index:0;pointer-events:none;white-space:nowrap;font-weight:900;font-style:italic;font-stretch:66%;font-size:clamp(5.5rem,21vw,17rem);line-height:.8;text-transform:uppercase;letter-spacing:.01em;color:transparent;-webkit-text-stroke:1.5px rgba(255,210,26,.14);transform:translate3d(var(--gx,0px),0,0);will-change:transform;opacity:0;transition:opacity 1.2s}
+.gword.cin{opacity:1}
+.has-ghost{overflow-x:clip}
+@supports not (overflow:clip){.has-ghost{overflow:hidden}}
+.has-ghost>.wrap,.has-ghost>.fullvid{position:relative;z-index:1}
+
+/* =====================================================================
+   MOTION PRODUK: berayun 3D, kilau menyapu, titik orbit, cahaya berdenyut,
+   muncul memantul, diketuk → berputar
+   ===================================================================== */
+.ring,.ringc{perspective:900px}
+@keyframes psway{0%,100%{rotate:y -16deg}50%{rotate:y 16deg}}
+.ring img,.ringc img{animation:float 6s ease-in-out infinite,psway 7.5s ease-in-out infinite}
+.stage.lit .ring img{animation:sbspring 1.25s cubic-bezier(.3,1.5,.5,1),float 6s ease-in-out 1.25s infinite,psway 7.5s ease-in-out infinite}
+.ringc{position:relative;isolation:isolate;cursor:pointer;scale:.55;opacity:0;transition:scale 1.1s cubic-bezier(.34,1.56,.64,1),opacity .6s}
+.ringc.cin{scale:1;opacity:1}
+.ringc::before{content:"";position:absolute;inset:-18%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,rgba(255,190,0,.5),rgba(255,140,0,.14) 60%,transparent 75%);filter:blur(8px);animation:fxbreathe 3.4s ease-in-out infinite}
+.ring{cursor:pointer}
+.pshine{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.75) 50%,transparent 60%);background-size:260% 100%;background-position:130% 0;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;mix-blend-mode:screen;animation:pshine 4.2s ease-in-out infinite}
+@keyframes pshine{0%,45%{background-position:130% 0}85%,100%{background-position:-130% 0}}
+.porbit{position:absolute;left:50%;top:50%;z-index:1;width:132%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:1.5px dashed rgba(255,210,26,.28);pointer-events:none;animation:porb 10s linear infinite}
+.porbit i{position:absolute;width:11px;height:11px;border-radius:50%;background:radial-gradient(circle,#fff 0 25%,#FFD21A 50%,transparent 72%);box-shadow:0 0 14px #FFB300}
+.porbit i:nth-child(1){left:50%;top:-6px}.porbit i:nth-child(2){left:7%;top:72%}.porbit i:nth-child(3){right:7%;top:72%;background:radial-gradient(circle,#fff 0 25%,#FF9F0A 50%,transparent 72%)}
+@keyframes porb{to{transform:translate(-50%,-50%) rotate(360deg)}}
+/* foto pemasangan & sebelum/sesudah: zoom pelan saat terlihat, membesar saat disorot */
+.inst figure,.pair figure{border-radius:18px;overflow:hidden}
+img.crop{scale:1.08;transition:scale 1.8s cubic-bezier(.22,1,.36,1),filter .6s}
+img.crop.kb{scale:1}
+@media(hover:hover){figure:hover>img.crop{scale:1.05;filter:brightness(1.08) saturate(1.08)}}
+
+/* =====================================================================
+   MOTION KARTU: masuk memantul, kilau menyapu saat muncul, miring 3D +
+   cahaya ikut kursor (desktop), mengecil sedikit saat disentuh (HP)
+   ===================================================================== */
+.cfx{transition:rotate .55s cubic-bezier(.22,1,.36,1),translate .55s cubic-bezier(.34,1.56,.64,1),scale .25s,box-shadow .45s,border-color .45s}
+.cfx.tilt{translate:0 -5px;box-shadow:0 28px 54px -26px rgba(0,0,0,.85),0 0 0 1px rgba(255,210,26,.3),0 0 34px -10px rgba(255,190,0,.35)}
+.cfx.press{scale:.975;transition:scale .08s}
+.cfx-glare,.cfx-sweep{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:3}
+.cfx-glare{background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,226,120,.16),transparent 45%);opacity:0;transition:opacity .35s}
+.cfx.tilt>.cfx-glare{opacity:1}
+.cfx-sweep{background:linear-gradient(110deg,transparent 36%,rgba(255,255,255,.16) 50%,transparent 64%);background-size:260% 100%;background-position:130% 0}
+.cfx.swept>.cfx-sweep{animation:cswp 1.5s ease-out}
+@keyframes cswp{from{background-position:130% 0}to{background-position:-130% 0}}
+.cfx-rise{opacity:0;translate:0 36px;rotate:x 16deg;filter:blur(6px);transition:opacity .8s cubic-bezier(.22,1,.36,1),translate 1s cubic-bezier(.34,1.45,.64,1),rotate 1s cubic-bezier(.34,1.45,.64,1),filter .8s;transition-delay:var(--cd,0ms)}
+.cfx-rise.cin{opacity:1;translate:0 0;rotate:x 0deg;filter:none}
+@media(prefers-reduced-motion:reduce){
+  .gword{transform:none !important}
+  .ring img,.ringc img,.porbit,.pshine{animation:none !important}
+  .ringc,.cfx-rise{scale:1 !important;opacity:1 !important;translate:none !important;rotate:none !important;filter:none !important}
+}
 </style>
 </head>
 <body>
@@ -445,6 +611,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
   </div>
   <span class="cue" aria-hidden="true"></span>
 </header>
+<div class="bridge up"><a class="bb" href="#manfaat"><span>Lihat bedanya</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
+
 
 <div class="mq" aria-hidden="true"><div>
   <span>GERMAN TECHNOLOGY</span><span>✦</span><span>GARANSI SEUMUR HIDUP</span><span>✦</span><span>TANPA BATAS KLAIM</span><span>✦</span><span>FREE HOME SERVICE</span><span>✦</span>
@@ -467,6 +635,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
     <p class="cta-line" data-rv><a class="btn" href="https://wa.me/6285218304160?text=Halo%2C%20saya%20mau%20tanya%20Hurricane%20Spring%20Buffer" target="_blank" rel="noopener"><svg><use href="#wa"/></svg>Mau rasakan langsung? Chat WhatsApp</a></p>
   </div>
 </section>
+
+<div class="bridge"><a class="bb" href="#keluarga"><span>Lihat reaksi keluarga</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
 
 <!-- ===================== 2 · KELUARGA: dari tegang jadi tenang ===================== -->
 <section class="fam" id="keluarga">
@@ -497,6 +667,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
     <ul class="feel" data-rv><li>Hentakan lebih teredam</li><li>Bodi tidak ngayun</li><li>Kursi belakang lebih tenang</li></ul>
   </div>
 </section>
+
+<div class="bridge"><a class="bb" href="#kaki-kaki"><span>Apa yang dipertaruhkan?</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
 
 <!-- ===================== 3 · KAKI-KAKI: yang dipertaruhkan ===================== -->
 <section class="legs" id="kaki-kaki">
@@ -611,6 +783,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
   </div>
 </section>
 
+<div class="bridge"><a class="bb" href="#solusi"><span>Lihat solusinya</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
+
 <!-- ===================== 4 · SOLUSI: cukup Rp2,5 juta ===================== -->
 <section class="sol" id="solusi">
   <div class="wrap">
@@ -646,6 +820,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
   </div>
 </section>
 
+<div class="bridge"><a class="bb" href="#cara-kerja"><span>Bagaimana cara kerjanya?</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
+
 <!-- ===================== 6 · CARA KERJA ===================== -->
 <section class="how" id="cara-kerja">
   <div class="wrap">
@@ -659,6 +835,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
     </div>
   </div>
 </section>
+
+<div class="bridge"><a class="bb" href="#model"><span>Cocok untuk mobil saya?</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
 
 <!-- ===================== 7 · MODEL ===================== -->
 <section class="model" id="model"><div class="wrap">
@@ -684,6 +862,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
     <p class="cta-line"><a class="btn" href="https://wa.me/6285218304160?text=Halo%2C%20saya%20mau%20tanya%20Hurricane%20Spring%20Buffer" target="_blank" rel="noopener"><svg><use href="#wa"/></svg>Booking free test drive</a></p></div>
 </div></section>
 
+<div class="bridge"><a class="bb" href="#testimoni"><span>Lihat testimoni</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
+
 <!-- ===================== 8 · TESTIMONI ===================== -->
 <section class="testi" id="testimoni">
   <div class="wrap">
@@ -698,6 +878,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
   </div>
 </section>
 
+<div class="bridge"><a class="bb" href="#testdrive"><span>Coba gratis dulu</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
+
 <!-- ===================== 9 · TEST DRIVE ===================== -->
 <section class="td" id="testdrive">
   <div class="wrap">
@@ -708,6 +890,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
     </div>
   </div>
 </section>
+
+<div class="bridge"><a class="bb" href="#faq"><span>Masih ragu? Cek FAQ</span><i class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></i></a></div>
 
 <!-- ===================== 10 · FAQ ===================== -->
 <section class="faq" id="faq">
@@ -729,6 +913,8 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
     <p class="cta-line" data-rv><a class="btn" href="https://wa.me/6285218304160?text=Halo%2C%20saya%20mau%20tanya%20Hurricane%20Spring%20Buffer" target="_blank" rel="noopener"><svg><use href="#wa"/></svg>Ada pertanyaan? Chat WhatsApp</a></p>
   </div>
 </section>
+
+<div class="bridge"><a class="bb wa" href="https://wa.me/6285218304160?text=Halo%2C%20saya%20mau%20tanya%20Hurricane%20Spring%20Buffer" target="_blank" rel="noopener"><span>Tanya langsung via WhatsApp</span><i class="ar"><svg><use href="#wa"/></svg></i></a></div>
 
 <!-- ===================== 11 · AJAKAN PENUTUP ===================== -->
 <section class="cta" id="cta">
@@ -927,7 +1113,7 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
     (function step(n) {
       var p = Math.min(1, (n - t0) / 1600), e = 1 - Math.pow(1 - p, 4);
       now.textContent = fmt(from + (to - from) * e);
-      if (p < 1) requestAnimationFrame(step); else now.textContent = 'Rp2.500.000';
+      if (p < 1) requestAnimationFrame(step); else { now.textContent = 'Rp2.500.000'; document.dispatchEvent(new Event('sb:priced')); }
     })(t0);
   };
   if ('IntersectionObserver' in window) {
@@ -1080,6 +1266,157 @@ main.ptr-back,footer.ptr-back{transition:transform .6s cubic-bezier(.34,1.56,.64
       anim.oncancel = function () { d.style.height = ''; };
     });
   });
+})();
+</script>
+<script>
+/* ===== MOTION SERAGAM DENGAN HALAMAN XCSR (+ lebih "wah") ===== */
+(function () {
+  'use strict';
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (s, r) { return (r || document).querySelector(s); }, $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+
+  /* tombol penghubung: melompat "keluar" saat terlihat */
+  $$('.bridge').forEach(function (b) {
+    var bb = $('.bb', b);
+    bb.addEventListener('animationend', function (e) { if (e.animationName === 'bbpop') b.classList.add('done'); });
+    if (reduce || !('IntersectionObserver' in window)) { b.classList.add('done'); return; }
+    var o = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { b.classList.add('out'); o.disconnect(); } }, { threshold: .5, rootMargin: '0px 0px -12% 0px' });
+    o.observe(bb);
+  });
+  document.addEventListener('pointerdown', function (e) {
+    var b = e.target.closest && e.target.closest('.bb'); if (!b) return; b.classList.add('pressed');
+    var up = function () { setTimeout(function () { b.classList.remove('pressed'); }, 90); removeEventListener('pointerup', up); removeEventListener('pointercancel', up); };
+    addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  }, { passive: true });
+
+  /* solusi: sinar, gelombang kejut, kilatan, percikan, per memantul, harga menghantam */
+  var stage = $('#stage'), now = $('#priceNow'), save = $('.drop .save');
+  if (stage) {
+    var fx = document.createElement('div'); fx.innerHTML = '<span class="fx-rays"><i></i></span><span class="fx-glow"></span><span class="fx-ring"></span><span class="fx-ring r2"></span><span class="fx-flash"></span><span class="fx-burst"></span>';
+    var frag = document.createDocumentFragment(); while (fx.firstChild) frag.appendChild(fx.firstChild);
+    stage.insertBefore(frag, stage.firstChild);   /* lapisan efek di belakang produk */
+    var burst = $('.fx-burst', stage);
+    for (var q = 0; q < 18; q++) {
+      var sk = document.createElement('i');
+      sk.style.setProperty('--a', (q * 20 + Math.random() * 12).toFixed(0) + 'deg');
+      sk.style.setProperty('--d', (120 + Math.random() * 100).toFixed(0) + 'px');
+      sk.style.setProperty('--s', (6 + Math.random() * 8).toFixed(0) + 'px');
+      sk.style.setProperty('--dl', (Math.random() * .15).toFixed(2) + 's');
+      sk.style.setProperty('--c', q % 3 ? '#FFD21A' : '#FF9F0A');
+      burst.appendChild(sk);
+    }
+    var drop = $('#drop'), pfx = null;
+    if (drop && now) {
+      pfx = document.createElement('span'); pfx.className = 'pfx'; pfx.setAttribute('aria-hidden', 'true'); pfx.innerHTML = '<b></b>';
+      for (var j = 0; j < 14; j++) {
+        var pk = document.createElement('i');
+        pk.style.setProperty('--a', (j * 26 + Math.random() * 14).toFixed(0) + 'deg');
+        pk.style.setProperty('--d', (60 + Math.random() * 70).toFixed(0) + 'px');
+        pk.style.setProperty('--s', (5 + Math.random() * 6).toFixed(0) + 'px');
+        pk.style.setProperty('--dl', (Math.random() * .12).toFixed(2) + 's');
+        pk.style.setProperty('--c', j % 3 ? '#FFD21A' : '#FF9F0A');
+        pfx.appendChild(pk);
+      }
+      drop.appendChild(pfx);
+    }
+    var lit = function () {
+      stage.classList.remove('lit'); void stage.offsetWidth; stage.classList.add('lit');
+      if (pfx) {   /* titik pusat percikan = tengah angka harga */
+        var dr = drop.getBoundingClientRect(), nr = now.getBoundingClientRect();
+        pfx.style.left = (nr.left - dr.left + nr.width / 2).toFixed(0) + 'px'; pfx.style.top = (nr.top - dr.top + nr.height / 2).toFixed(0) + 'px';
+        drop.classList.remove('wow'); void drop.offsetWidth; drop.classList.add('wow');
+      }
+      if (now) { now.classList.remove('slam'); void now.offsetWidth; now.classList.add('slam'); }
+      if (save) save.classList.add('pop');
+    };
+    document.addEventListener('sb:priced', lit);
+    if (reduce) stage.classList.add('lit');
+  }
+})();
+</script>
+<script>
+/* ===== TIPOGRAFI KAPITAL (kata raksasa) + MOTION PRODUK + MOTION KARTU ===== */
+(function () {
+  'use strict';
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var $ = function (s, r) { return (r || document).querySelector(s); }, $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+  var hasIO = 'IntersectionObserver' in window;
+  var watch = function (els, fn, opt) {
+    if (!hasIO || reduce) { els.forEach(fn); return; }
+    var o = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { fn(e.target); o.unobserve(e.target); } }); }, opt || { threshold: .2 });
+    els.forEach(function (el) { o.observe(el); });
+  };
+
+  /* 1 · kata raksasa bergaris di belakang section */
+  var GH = { manfaat: 'Rasakan bedanya', keluarga: 'Keluarga nyaman', 'kaki-kaki': 'Kaki-kaki', solusi: 'Cukup Rp2,5 juta', 'cara-kerja': 'Kompresi • Redam • Rebound', model: 'Innova • Fortuner • Alphard', testdrive: 'Free test drive', cta: 'Spring Buffer' };
+  var ghosts = [];
+  Object.keys(GH).forEach(function (id, i) {
+    var sec = document.getElementById(id); if (!sec) return;
+    var g = document.createElement('div'); g.className = 'gword'; g.setAttribute('aria-hidden', 'true'); g.textContent = GH[id] + '  •  ' + GH[id];
+    sec.classList.add('has-ghost'); sec.insertBefore(g, sec.firstChild); ghosts.push({ s: sec, g: g, dir: i % 2 ? 1 : -1 });
+  });
+  var gtick = false;
+  var moveGhosts = function () {
+    gtick = false; var vh = innerHeight;
+    ghosts.forEach(function (o) {
+      var r = o.s.getBoundingClientRect(); if (r.bottom < -50 || r.top > vh + 50) return;
+      var p = (vh - r.top) / (vh + r.height), w = o.g.scrollWidth - innerWidth;
+      o.g.style.setProperty('--gx', (o.dir > 0 ? -w * p : -w * (1 - p)).toFixed(1) + 'px');
+    });
+  };
+  if (!reduce) { addEventListener('scroll', function () { if (!gtick) { gtick = true; requestAnimationFrame(moveGhosts); } }, { passive: true }); addEventListener('resize', moveGhosts); moveGhosts(); }
+  watch(ghosts.map(function (o) { return o.g; }), function (g) { g.classList.add('cin'); }, { threshold: 0 });
+
+  /* 2 · produk: kilau, orbit, muncul memantul, diketuk → berputar */
+  $$('.ring, .ringc').forEach(function (box) {
+    var img = $('img', box); if (!img) return;
+    var sh = document.createElement('span'); sh.className = 'pshine'; sh.setAttribute('aria-hidden', 'true');
+    var setMask = function () { sh.style.webkitMaskImage = sh.style.maskImage = 'url(' + img.currentSrc + ')'; };
+    if (img.complete && img.currentSrc) setMask(); else img.addEventListener('load', setMask);
+    var orb = document.createElement('span'); orb.className = 'porbit'; orb.setAttribute('aria-hidden', 'true'); orb.innerHTML = '<i></i><i></i><i></i>';
+    box.appendChild(sh); box.insertBefore(orb, box.firstChild);
+    box.addEventListener('click', function () {
+      if (reduce || !img.animate) return;
+      img.animate([{ rotate: 'z 0deg' }, { rotate: 'z 360deg' }], { duration: 950, easing: 'cubic-bezier(.34,1.56,.64,1)', composite: 'add' });
+    });
+  });
+  watch($$('.ringc'), function (el) { el.classList.add('cin'); }, { threshold: .3 });
+  watch($$('img.crop'), function (im) { im.classList.add('kb'); }, { threshold: .25 });
+
+  /* 3 · kartu */
+  var CARD = '.drop,.warranty,.step,.trio div,.glowcard,.bill,.spec,.inst figure,.pair figure,.face,.story,.feel li,.perks li,.badges li,.faq details';
+  var NOTILT = '.story,.faq details,.feel li,.perks li,.badges li,.glowcard';
+  var cards = $$(CARD);
+  cards.forEach(function (c, i) {
+    c.classList.add('cfx');
+    if (getComputedStyle(c).position === 'static') c.style.position = 'relative';
+    if (!c.matches('.faq details,.feel li,.perks li,.badges li')) {
+      var gl = document.createElement('span'); gl.className = 'cfx-glare'; gl.setAttribute('aria-hidden', 'true');
+      var sw = document.createElement('span'); sw.className = 'cfx-sweep'; sw.setAttribute('aria-hidden', 'true');
+      c.appendChild(gl); c.appendChild(sw);
+    }
+    if (!c.closest('[data-rv]') && !c.hasAttribute('data-rv') && !reduce) {
+      var sib = c.parentElement ? [].indexOf.call(c.parentElement.children, c) : 0;
+      c.classList.add('cfx-rise'); c.style.setProperty('--cd', Math.min(sib, 6) * 90 + 'ms');
+    }
+    if (fine && !reduce && !c.matches(NOTILT)) {
+      if (c.parentElement && !c.parentElement.style.perspective) c.parentElement.style.perspective = '1100px';
+      c.addEventListener('pointermove', function (e) {
+        var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        var ax = -y, ay = x, ang = Math.min(7, Math.hypot(x, y) * 14);
+        c.style.rotate = ax.toFixed(3) + ' ' + ay.toFixed(3) + ' 0 ' + ang.toFixed(2) + 'deg';
+        c.style.setProperty('--mx', ((x + .5) * 100).toFixed(1) + '%'); c.style.setProperty('--my', ((y + .5) * 100).toFixed(1) + '%');
+        c.classList.add('tilt');
+      });
+      c.addEventListener('pointerleave', function () { c.style.rotate = ''; c.classList.remove('tilt'); });
+    } else if (fine && !reduce) {
+      c.addEventListener('pointermove', function (e) { var r = c.getBoundingClientRect(); c.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%'); c.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%'); c.classList.add('tilt'); });
+      c.addEventListener('pointerleave', function () { c.classList.remove('tilt'); });
+    }
+    c.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') { c.classList.add('press'); } });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { c.addEventListener(ev, function () { c.classList.remove('press'); }); });
+  });
+  watch(cards, function (c) { c.classList.add('cin'); c.classList.add('swept'); }, { threshold: .18, rootMargin: '0px 0px -6% 0px' });
 })();
 </script>
 </body>
